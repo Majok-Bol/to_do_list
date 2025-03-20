@@ -20,34 +20,32 @@ class ToDoListState extends State<ToDoList>{
 final TextEditingController itemController=TextEditingController();
 //edit by using index
 int?editingIndex;
-void addItem(){
-  setState(() {
-    //check if text field is not empty
-    //if yes
-    //add item to list
-    if(itemController.text.isNotEmpty){
-      //check if there is text to edit
-      if(editingIndex==null){
-        //if not
-        //add item to list
-        itemsToAdd.add(itemController.text);
-      }else{
-        //if there is text to edit
-        //edit it
-        itemsToAdd[editingIndex!]=itemController.text;
+  void addItem() {
+    setState(() {
+      if (itemController.text.isNotEmpty) {
+        if (editingIndex == null) {
+          // Adding a new item
+          itemsToAdd.add(itemController.text);
+        } else {
+          // Updating an existing item
+          itemsToAdd[editingIndex!] = itemController.text;
+          editingIndex = null; // Reset after editing
+        }
+        itemController.clear();
       }
-      itemController.clear();
-    }
-  });
-}
+    });
+  }
+
 //function to clear the list
 void clearList(){
   setState(() {
     itemsToAdd.clear();
+    editingIndex=null;
+    itemController.clear();
   });
 }
 //function to edit items
-void editItem(index){
+void editItem(int index){
 //if there is item to edit
 //take the list item index of that item
 //text input should take that item
@@ -81,11 +79,22 @@ editingIndex=index;
           SizedBox(height: 20,),
           Row(
             children: [
-             Expanded(child: ElevatedButton(onPressed: addItem, child: Text('Add'))),
+            Expanded(child: ElevatedButton(onPressed: addItem,style: ElevatedButton.styleFrom(backgroundColor: Colors.green), child:Text(editingIndex==null ? "Add" : "Update"),)),
               SizedBox(width: 20,),
-               Expanded(child: ElevatedButton(onPressed: addItem, child: Text('Delete'))),
+               Expanded(child: ElevatedButton(onPressed: clearList,style: ElevatedButton.styleFrom(backgroundColor: Colors.red), child: Text('Delete',style: TextStyle(fontSize: 20),)),),
             ],
-          )
+          ),
+          Expanded(child: ListView.builder(
+            itemCount: itemsToAdd.length,
+              itemBuilder: (context,index){
+              return ListTile(title:
+                Text(itemsToAdd[index]),
+                trailing: IconButton(onPressed:()=>editItem(index), icon:Icon(Icons.edit,color: Colors.blue,),),
+
+              );
+
+
+          }))
 
         ],
       ),

@@ -60,6 +60,36 @@ editingIndex=index;
   Widget build(BuildContext context){
   return Scaffold(
     appBar: AppBar(title: Text('To do List',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),centerTitle: true,),
+    body: Container(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(child: TextField(
+                controller: itemController,
+                decoration: InputDecoration(border: OutlineInputBorder(),
+                hintText: 'Enter item to add'
+                ),
+              )),
+              SizedBox(height: 20,),
+
+
+
+            ],
+          ),
+          SizedBox(height: 20,),
+          Row(
+            children: [
+             Expanded(child: ElevatedButton(onPressed: addItem, child: Text('Add'))),
+              SizedBox(width: 20,),
+               Expanded(child: ElevatedButton(onPressed: addItem, child: Text('Delete'))),
+            ],
+          )
+
+        ],
+      ),
+    ),
   );
 }
 }

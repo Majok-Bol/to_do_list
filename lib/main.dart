@@ -40,20 +40,24 @@ int?editingIndex;
 void clearList(){
   setState(() {
     itemsToAdd.clear();
-    editingIndex=null;
-    itemController.clear();
+    // editingIndex=null;
+    // itemController.clear();
   });
 }
 //function to edit items
-void editItem(int index){
-//if there is item to edit
+void editItem(int index) {
+  setState(() {
+    //if there is item to edit
 //take the list item index of that item
 //text input should take that item
 //edit it in text input field
 //clear the edit index
-itemController.text=itemsToAdd[index];
-editingIndex=index;
+    itemController.text = itemsToAdd[index];
+    editingIndex = index;
+  });
 }
+
+
 @override
   Widget build(BuildContext context){
   return Scaffold(
@@ -79,7 +83,8 @@ editingIndex=index;
           SizedBox(height: 20,),
           Row(
             children: [
-            Expanded(child: ElevatedButton(onPressed: addItem,style: ElevatedButton.styleFrom(backgroundColor: Colors.green), child:Text(editingIndex==null ? "Add" : "Update"),)),
+            Expanded(child: ElevatedButton(onPressed: addItem,style: ElevatedButton.styleFrom(backgroundColor: Colors.green), child:Text(
+                editingIndex ==null ? "Add" : "Update"),),),
               SizedBox(width: 20,),
                Expanded(child: ElevatedButton(onPressed: clearList,style: ElevatedButton.styleFrom(backgroundColor: Colors.red), child: Text('Delete',style: TextStyle(fontSize: 20),)),),
             ],
